@@ -11,6 +11,7 @@ import com.kastbin.repository.PastModelRepo
 import com.kastbin.repository.UserModelRepo
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class PastingService(
@@ -43,6 +44,7 @@ class PastingService(
         pastDetails.user = user.email
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
+        pastDetails.id = UUID.randomUUID().mostSignificantBits
         val past: PastDetailsModel = pastRepo.save(pastDetails)
         user.pastModel?.add(past)
         pastRepo.save(pastDetails)
@@ -56,6 +58,7 @@ class PastingService(
         pastDetails.user = basicUser.getEmail()
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
+        pastDetails.id = UUID.randomUUID().mostSignificantBits
         val past: PastDetailsModel = pastRepo.save(pastDetails)
         user.pastModel?.add(past)
         pastRepo.save(pastDetails)
