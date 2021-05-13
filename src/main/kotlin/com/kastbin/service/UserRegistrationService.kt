@@ -5,6 +5,7 @@ import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.mapper.RegistrationDTOMapper
 import com.kastbin.repository.UserModelRepo
 import org.springframework.stereotype.Service
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -21,6 +22,8 @@ class UserRegistrationService(
             val user = registrationMapper.toUserModel(userDTO)
             user.id = UUID.randomUUID().mostSignificantBits
             user.password = bcrypt.hash().encode(user.password)
+            user.dateAndTimeOfCreation = LocalDateTime.now()
+            user.oauth = false
             userRepo.save(user)
             return true
         }
