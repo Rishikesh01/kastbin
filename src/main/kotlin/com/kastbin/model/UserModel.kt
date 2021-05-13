@@ -2,6 +2,7 @@ package com.kastbin.model
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.index.Indexed
+import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
@@ -10,7 +11,8 @@ data class UserModel(
     var userName: String?,
     @Indexed(unique = true)
     var email: String?,
-    var pastModel: MutableList<PastDetailsModel>?,
+    @DBRef
+    var pastModel: MutableList<PastDetailsModel?>?,
     var oauth: Boolean?,
     var password: String?,
     var dateAndTimeOfCreation: LocalDateTime?,

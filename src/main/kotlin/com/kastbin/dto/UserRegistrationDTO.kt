@@ -1,5 +1,6 @@
 package com.kastbin.dto
 
+import com.kastbin.model.PastDetailsModel
 import org.jetbrains.annotations.NotNull
 
 data class UserRegistrationDTO(
@@ -10,5 +11,5 @@ data class UserRegistrationDTO(
     @field:NotNull
     var confirmPassword: String?,
     @field:NotNull
-    var email: String?,
+    var email: String?
 )

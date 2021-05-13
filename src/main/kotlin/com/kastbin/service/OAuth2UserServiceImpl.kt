@@ -1,9 +1,11 @@
 package com.kastbin.service
 
 import com.kastbin.configuration.Bcrypt
+import com.kastbin.dto.PastDTO
 import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.mapper.RegistrationDTOMapper
 import com.kastbin.model.OAuth2UserImpl
+import com.kastbin.model.PastDetailsModel
 import com.kastbin.model.UserModel
 import com.kastbin.repository.UserModelRepo
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
@@ -32,6 +34,7 @@ class OAuth2UserServiceImpl(
     fun saveUser(oauthUser: OAuth2UserImpl) {
         if (userRepo.findAllByEmail(oauthUser.getEmail()!!) != null)
             return
+        val past:PastDetailsModel = PastDetailsModel(null,null,null,null,null,null,null,null)
         val user: UserModel = userMapper.toUserModel(
             UserRegistrationDTO(
                 oauthUser.name,
@@ -40,8 +43,10 @@ class OAuth2UserServiceImpl(
                 oauthUser.getEmail()
             )
         )
+
         user.dateAndTimeOfCreation = LocalDateTime.now()
         user.oauth = true
+        user.pastModel?.add(past)
         user.password = bcrypt.hash().encode(user.password)
         user.id = Random(9).nextLong()
         userRepo.save(user)

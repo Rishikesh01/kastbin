@@ -12,6 +12,7 @@ import com.kastbin.repository.UserModelRepo
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.collections.ArrayList
 
 @Service
 class PastingService(
@@ -33,6 +34,7 @@ class PastingService(
         pastDetails.user = "Anonymous"
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
+        pastDetails.id = UUID.randomUUID().mostSignificantBits
         pastRepo.save(pastDetails)
         return url
     }
@@ -46,7 +48,8 @@ class PastingService(
         pastDetails.pastURL = url
         pastDetails.id = UUID.randomUUID().mostSignificantBits
         val past: PastDetailsModel = pastRepo.save(pastDetails)
-        user.pastModel?.add(past)
+        user.pastModel!!.add(past)
+        userRepo.save(user)
         pastRepo.save(pastDetails)
         return url
     }
@@ -60,7 +63,8 @@ class PastingService(
         pastDetails.pastURL = url
         pastDetails.id = UUID.randomUUID().mostSignificantBits
         val past: PastDetailsModel = pastRepo.save(pastDetails)
-        user.pastModel?.add(past)
+        user.pastModel!!.add(past)
+        userRepo.save(user)
         pastRepo.save(pastDetails)
         return url
     }
