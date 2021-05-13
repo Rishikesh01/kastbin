@@ -3,28 +3,13 @@ package com.kastbin.configuration
 import com.kastbin.service.OAuth2UserServiceImpl
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
-import org.springframework.security.web.util.matcher.RequestMatcher
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.web.util.matcher.RequestMatcher
 import javax.servlet.http.HttpServletRequest
-import org.springframework.http.HttpStatus
-
-import javax.servlet.http.HttpServletResponse
-
-import javax.servlet.ServletException
-
-import java.io.IOException
-
-import javax.servlet.FilterChain
-
-import javax.servlet.ServletResponse
-
-import javax.servlet.ServletRequest
-
-import org.springframework.web.filter.GenericFilterBean
 
 @EnableWebSecurity
 class WebSecurityConfiguration {
@@ -37,7 +22,7 @@ class WebSecurityConfiguration {
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
-            http
+            http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/", "/past", "/signup").permitAll()
                 .mvcMatchers("/oauth/**").authenticated()
@@ -62,7 +47,7 @@ class WebSecurityConfiguration {
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
-            http
+            http.csrf().disable()
                 .requestMatcher(BasicRequestMatcher())
                 .authorizeRequests()
                 .mvcMatchers("/", "/past", "/signup").permitAll()

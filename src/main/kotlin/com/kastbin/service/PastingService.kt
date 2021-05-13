@@ -5,6 +5,7 @@ import com.kastbin.enums.Type
 import com.kastbin.mapper.PastDTOMapper
 import com.kastbin.model.OAuth2UserImpl
 import com.kastbin.model.PastDetailsModel
+import com.kastbin.model.UserDetailsImp
 import com.kastbin.model.UserModel
 import com.kastbin.repository.PastModelRepo
 import com.kastbin.repository.UserModelRepo
@@ -18,19 +19,13 @@ class PastingService(
     private val pastMapper: PastDTOMapper,
     private val urlGenerator: StringService
 ) {
-    fun past(pastDTO: PastDTO, authUser: OAuth2User?): String {
+    fun past(pastDTO: PastDTO, authUser: OAuth2User?, basicUser: UserDetailsImp?): String {
         if (authUser != null) {
             val userImpl: OAuth2UserImpl = OAuth2UserImpl(authUser)
-            val user: UserModel = userRepo.findAllByEmail(userImpl.getEmail()!!)!!
-            val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
-            if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
-            pastDetails.user = userImpl.getEmail()
-            val url = urlGenerator.randomStringGenerator()
-            pastDetails.pastURL = url
-            val past: PastDetailsModel = pastRepo.save(pastDetails)
-            user.pastModel?.add(past)
-            pastRepo.save(pastDetails)
-            return url
+            return oauthUserPast(userImpl, pastDTO)
+        }
+        if (basicUser != null) {
+            return basicUserPast(basicUser, pastDTO)
         }
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
         if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
@@ -41,7 +36,29 @@ class PastingService(
         return url
     }
 
-    fun retrive() {
+    fun oauthUserPast(userImpl: OAuth2UserImpl, pastDTO: PastDTO): String {
+        val user: UserModel = userRepo.findAllByEmail(userImpl.getEmail()!!)!!
+        val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
+        if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
+        pastDetails.user = user.email
+        val url = urlGenerator.randomStringGenerator()
+        pastDetails.pastURL = url
+        val past: PastDetailsModel = pastRepo.save(pastDetails)
+        user.pastModel?.add(past)
+        pastRepo.save(pastDetails)
+        return url
+    }
 
+    fun basicUserPast(basicUser: UserDetailsImp, pastDTO: PastDTO): String {
+        val user: UserModel = userRepo.findAllByEmail(basicUser.getEmail())!!
+        val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
+        if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
+        pastDetails.user = basicUser.getEmail()
+        val url = urlGenerator.randomStringGenerator()
+        pastDetails.pastURL = url
+        val past: PastDetailsModel = pastRepo.save(pastDetails)
+        user.pastModel?.add(past)
+        pastRepo.save(pastDetails)
+        return url
     }
 }

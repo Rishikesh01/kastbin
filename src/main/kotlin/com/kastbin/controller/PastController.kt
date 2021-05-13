@@ -3,6 +3,7 @@ package com.kastbin.controller
 
 import com.kastbin.dto.PastDTO
 import com.kastbin.mapper.PastDTOMapper
+import com.kastbin.model.UserDetailsImp
 import com.kastbin.repository.PastModelRepo
 import com.kastbin.service.PastingService
 import org.springframework.http.HttpHeaders
@@ -23,9 +24,10 @@ class PastController(
     @PostMapping
     fun past(
         @AuthenticationPrincipal authUser: OAuth2User?,
+        @AuthenticationPrincipal basicUser: UserDetailsImp?,
         @RequestBody pastDTO: PastDTO
     ): ResponseEntity<HttpStatus> {
-        val url: String = pastingService.past(pastDTO, authUser)
+        val url: String = pastingService.past(pastDTO, authUser, basicUser)
         val header = HttpHeaders()
         header.location = URI.create("/${url}")
         return ResponseEntity(header, HttpStatus.TEMPORARY_REDIRECT)
