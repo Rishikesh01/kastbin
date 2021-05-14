@@ -21,6 +21,7 @@ class PastController(
     private val pastMapper: PastDTOMapper,
     private val pastingService: PastingService
 ) {
+
     @PostMapping
     fun past(
         @AuthenticationPrincipal authUser: OAuth2User?,
@@ -47,4 +48,5 @@ class PastController(
         return ResponseEntity(HttpStatus.NOT_FOUND)
 
     }
+
 }

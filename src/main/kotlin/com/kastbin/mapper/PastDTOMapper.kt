@@ -9,4 +9,6 @@ interface PastDTOMapper {
 
     fun toPastDTO(pastDetailsModel: PastDetailsModel?): PastDTO?
     fun toPastDetailsModel(pastDTO: PastDTO): PastDetailsModel
+    fun toListPastDetailsModel(pastDto:List<PastDTO?>):List<PastDetailsModel>
+    fun toListPastDTO(pastDetailsModel:List<PastDetailsModel?>):List<PastDTO>
 }
