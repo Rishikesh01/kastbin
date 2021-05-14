@@ -5,12 +5,10 @@ import com.kastbin.mapper.PastDTOMapper
 import com.kastbin.model.OAuth2UserImpl
 import com.kastbin.model.PastDetailsModel
 import com.kastbin.model.UserDetailsImp
-import com.kastbin.model.UserModel
 import com.kastbin.repository.PastModelRepo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,25 +16,27 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/user")
-class UserController(private val pastModelRepo: PastModelRepo,
-private val pastDTOMapper: PastDTOMapper) {
+class UserController(
+    private val pastModelRepo: PastModelRepo,
+    private val pastDTOMapper: PastDTOMapper
+) {
 
     @GetMapping("/past")
     fun userPastList(
         @AuthenticationPrincipal oauthUser: OAuth2User?,
         @AuthenticationPrincipal user: UserDetailsImp?
     ): ResponseEntity<List<PastDTO?>> {
-        if (oauthUser != null){
-            val oauthUserImpl:OAuth2UserImpl = OAuth2UserImpl(oauthUser)
-            val userPast:List<PastDetailsModel?> = pastModelRepo.findByUser(oauthUserImpl.getEmail()!!)
-            val userPastDto:List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
-            return ResponseEntity(userPastDto,HttpStatus.OK)
+        if (oauthUser != null) {
+            val oauthUserImpl: OAuth2UserImpl = OAuth2UserImpl(oauthUser)
+            val userPast: List<PastDetailsModel?> = pastModelRepo.findByUser(oauthUserImpl.getEmail()!!)
+            val userPastDto: List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
+            return ResponseEntity(userPastDto, HttpStatus.OK)
         }
-        if(user == null)
+        if (user == null)
             return ResponseEntity(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED)
-        val userPast:List<PastDetailsModel?> = pastModelRepo.findByUser(user.getEmail())
-        val userPastDto:List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
-        return ResponseEntity(userPastDto,HttpStatus.OK)
+        val userPast: List<PastDetailsModel?> = pastModelRepo.findByUser(user.getEmail())
+        val userPastDto: List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
+        return ResponseEntity(userPastDto, HttpStatus.OK)
 
     }
 }
