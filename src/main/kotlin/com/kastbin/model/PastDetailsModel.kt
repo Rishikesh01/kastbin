@@ -6,6 +6,19 @@ import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import java.sql.Date
 
+/**
+ * Past details model
+ *
+ * @property past
+ * @property pastType
+ * @property user
+ * @property isProctected
+ * @property password
+ * @property pastURL
+ * @property dateOfCreation
+ * @property id
+ * @constructor Create empty Past details model
+ */
 @Document
 data class PastDetailsModel(
     var past: String?,

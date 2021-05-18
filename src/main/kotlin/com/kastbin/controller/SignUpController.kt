@@ -9,12 +9,23 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+/**
+ * Sign up controller
+ *
+ * @property userRegistrationService
+ * @constructor Create empty Sign up controller
+ */
 @RestController
 @RequestMapping("/signup")
 class SignUpController(private val userRegistrationService: UserRegistrationService) {
+    /**
+     * register
+     * takes userRegistrationDto from RequestBody
+     * @param userRegistrationDTO
+     * @return String and Http Status
+     */
     @PostMapping
     fun register(@RequestBody userRegistrationDTO: UserRegistrationDTO): ResponseEntity<String> {
-        println("running")
         if (userRegistrationService.userRegistration(userRegistrationDTO)) {
             return ResponseEntity<String>("user with registered successfully", HttpStatus.OK)
         }

@@ -3,8 +3,18 @@ package com.kastbin.service
 import org.springframework.stereotype.Service
 import java.util.*
 
+/**
+ * String service
+ *
+ * @constructor Create empty String service
+ */
 @Service
 class StringService {
+    /**
+     * Random string generator
+     *
+     * @return a random string
+     */
     fun randomStringGenerator(): String {
         val leftLimit = 48 // numeral '0'
 

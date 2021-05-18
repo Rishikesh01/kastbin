@@ -14,6 +14,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.web.bind.annotation.*
 import java.net.URI
 
+/**
+ * Past controller
+ *
+ * @property pastRepo
+ * @property pastMapper
+ * @property pastingService
+ * @constructor Create empty Past controller
+ */
 @RestController
 @RequestMapping("/past")
 class PastController(
@@ -22,8 +30,17 @@ class PastController(
     private val pastingService: PastingService
 ) {
 
+    /**
+     * acceptPast
+     *  triggered by post request
+     * @param authUser
+     * @param basicUser
+     * @param pastDTO
+     * Adds a custom header to ResponseEnitity which contains generated URL
+     * @return ResponseEntity of HTTP STATUS
+     */
     @PostMapping
-    fun past(
+    fun acceptPast(
         @AuthenticationPrincipal authUser: OAuth2User?,
         @AuthenticationPrincipal basicUser: UserDetailsImp?,
         @RequestBody pastDTO: PastDTO
@@ -34,15 +51,14 @@ class PastController(
         return ResponseEntity(header, HttpStatus.TEMPORARY_REDIRECT)
     }
 
-    @GetMapping
-    fun hello(@AuthenticationPrincipal userImpl: OAuth2User?): ResponseEntity<Void> {
-        val header = HttpHeaders()
-        header.location = URI.create("/past/something1")
-        return ResponseEntity(header, HttpStatus.TEMPORARY_REDIRECT)
-    }
-
+    /**
+     * getPastBody
+     *
+     * @param pastURL
+     * @return ResponseEntity the past if the giving URL parameter is valid  else Returns Http Not found
+     */
     @GetMapping("/{url}")
-    fun something(@PathVariable(value = "url") pastURL: String): ResponseEntity<PastDTO> {
+    fun getPastBody(@PathVariable(value = "url") pastURL: String): ResponseEntity<PastDTO> {
         val past: PastDTO? = pastMapper.toPastDTO(pastRepo.findByPastURL(pastURL))
         if (past != null) return ResponseEntity.accepted().body(past)
         return ResponseEntity(HttpStatus.NOT_FOUND)

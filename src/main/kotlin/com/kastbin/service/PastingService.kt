@@ -14,6 +14,15 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
+/**
+ * Pasting service
+ *
+ * @property pastRepo
+ * @property userRepo
+ * @property pastMapper
+ * @property urlGenerator
+ * @constructor Create empty Pasting service
+ */
 @Service
 class PastingService(
     private val pastRepo: PastModelRepo,
@@ -22,6 +31,14 @@ class PastingService(
     private val urlGenerator: StringService
 ) {
 
+    /**
+     * Past
+     *  check user is authenticated  and saves the user past appropriately
+     * @param pastDTO
+     * @param authUser
+     * @param basicUser
+     * @return
+     */
     fun past(pastDTO: PastDTO, authUser: OAuth2User?, basicUser: UserDetailsImp?): String {
         if (authUser != null) {
             val userImpl: OAuth2UserImpl = OAuth2UserImpl(authUser)
@@ -40,16 +57,30 @@ class PastingService(
         return url
     }
 
-    fun oauthUserPast(userImpl: OAuth2UserImpl, pastDTO: PastDTO): String {
-        val user: UserModel = userRepo.findAllByEmail(userImpl.getEmail()!!)!!
+    /**
+     * OAuthUserPast
+     * saves past of OAuth user
+     * @param userImpl
+     * @param pastDTO
+     * @return string
+     */
+    private fun oauthUserPast(userImpl: OAuth2UserImpl, pastDTO: PastDTO): String {
+        val user: UserModel = userRepo.findByEmail(userImpl.getEmail()!!)!!
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
         if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
         pastDetails.user = user.email
         return pastURL(pastDetails, user)
     }
 
+    /**
+     * PastUrl
+     *  saves the past
+     * @param pastDetails
+     * @param user
+     * @return
+     */
     @Transactional
-    private fun pastURL(pastDetails: PastDetailsModel, user: UserModel): String {
+    protected fun pastURL(pastDetails: PastDetailsModel, user: UserModel): String {
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
         pastDetails.id = UUID.randomUUID().mostSignificantBits
@@ -61,8 +92,15 @@ class PastingService(
         return url
     }
 
-    fun basicUserPast(basicUser: UserDetailsImp, pastDTO: PastDTO): String {
-        val user: UserModel = userRepo.findAllByEmail(basicUser.getEmail())!!
+    /**
+     * Basic user past
+     * save past of no OAuth users
+     * @param basicUser
+     * @param pastDTO
+     * @return
+     */
+    private fun basicUserPast(basicUser: UserDetailsImp, pastDTO: PastDTO): String {
+        val user: UserModel = userRepo.findByEmail(basicUser.getEmail())!!
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
         if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
         pastDetails.user = basicUser.getEmail()

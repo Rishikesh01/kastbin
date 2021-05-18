@@ -11,14 +11,27 @@ import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.web.util.matcher.RequestMatcher
 import javax.servlet.http.HttpServletRequest
 
+/**
+ * Web security configuration
+ *
+ * @constructor Create empty Web security configuration
+ */
 @EnableWebSecurity
 class WebSecurityConfiguration {
 
+    /**
+     * Web security o auth
+     *
+     * @property userDetailsService
+     * @property oauth
+     * @property hashingConfig
+     * @constructor Create empty Web security o auth
+     */
     @Configuration
     class WebSecurityOAuth(
         private val userDetailsService: UserDetailsService,
         private val oauth: OAuth2UserServiceImpl,
-        private val bcrypt: Bcrypt
+        private val hashingConfig: HashingConfig
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
@@ -35,15 +48,22 @@ class WebSecurityConfiguration {
         override fun configure(auth: AuthenticationManagerBuilder) {
             auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bcrypt.hash())
+                .passwordEncoder(hashingConfig.hash())
         }
     }
 
+    /**
+     * Web security basic
+     *
+     * @property userDetailsService
+     * @property hashingConfig
+     * @constructor Create empty Web security basic
+     */
     @Configuration
     @Order(0)
     class WebSecurityBasic(
         private val userDetailsService: UserDetailsService,
-        private val bcrypt: Bcrypt
+        private val hashingConfig: HashingConfig
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
@@ -59,9 +79,14 @@ class WebSecurityConfiguration {
         override fun configure(auth: AuthenticationManagerBuilder) {
             auth
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bcrypt.hash())
+                .passwordEncoder(hashingConfig.hash())
         }
 
+        /**
+         * Basic request matcher
+         *
+         * @constructor Create empty Basic request matcher
+         */
         internal class BasicRequestMatcher : RequestMatcher {
             override fun matches(request: HttpServletRequest): Boolean {
                 val auth = request.getHeader("Authorization")

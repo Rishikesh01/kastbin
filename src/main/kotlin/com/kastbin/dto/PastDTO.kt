@@ -5,6 +5,15 @@ import com.kastbin.enums.Type
 import org.jetbrains.annotations.NotNull
 
 
+/**
+ * Past d t o
+ *
+ * @property past
+ * @property type
+ * @property user
+ * @property password
+ * @constructor Create empty Past d t o
+ */
 data class PastDTO(
     @field:NotNull
     var past:String?,

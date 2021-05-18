@@ -2,7 +2,12 @@ package com.kastbin.service
 
 import org.springframework.stereotype.Service
 
-@Service
+/**
+ * Email validation service
+ *
+ * @constructor Create empty Email validation service
+ */
+
 class EmailValidationService {
     companion object {
         @JvmStatic

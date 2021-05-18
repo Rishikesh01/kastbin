@@ -6,6 +6,18 @@ import org.springframework.data.mongodb.core.mapping.DBRef
 import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
 
+/**
+ * User model
+ *
+ * @property userName
+ * @property email
+ * @property pastModel
+ * @property oauth
+ * @property password
+ * @property dateAndTimeOfCreation
+ * @property id
+ * @constructor Create empty User model
+ */
 @Document
 data class UserModel(
     var userName: String?,

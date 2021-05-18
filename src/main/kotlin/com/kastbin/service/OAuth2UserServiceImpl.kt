@@ -1,6 +1,6 @@
 package com.kastbin.service
 
-import com.kastbin.configuration.Bcrypt
+import com.kastbin.configuration.HashingConfig
 import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.mapper.RegistrationDTOMapper
 import com.kastbin.model.OAuth2UserImpl
@@ -16,15 +16,23 @@ import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
 import kotlin.random.Random
 
+/**
+ * O auth2user service impl
+ *
+ * @property userRepo
+ * @property userMapper
+ * @property hashingConfig
+ * @constructor Create empty O auth2user service impl
+ */
 @Service
 class OAuth2UserServiceImpl(
     private var userRepo: UserModelRepo,
     private var userMapper: RegistrationDTOMapper,
-    private val bcrypt: Bcrypt
+    private val hashingConfig: HashingConfig
 ) : OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private companion object {
-        const val SECRET: String = "LZDftXtzGuNeLBcYgLUI"
+        const val SECRET: String = "TESTING"
     }
 
     override fun loadUser(userRequest: OAuth2UserRequest): OAuth2User {
@@ -35,9 +43,14 @@ class OAuth2UserServiceImpl(
         return user
     }
 
+    /**
+     * Save user
+     *  saves OAuth UserDetails to table
+     * @param oauthUser
+     */
     @Transactional
     fun saveUser(oauthUser: OAuth2UserImpl) {
-        if (userRepo.findAllByEmail(oauthUser.getEmail()!!) != null)
+        if (userRepo.findByEmail(oauthUser.getEmail()!!) != null)
             return
         val past: PastDetailsModel = PastDetailsModel(null, null, null, null, null, null, null, null)
         val user: UserModel = userMapper.toUserModel(
@@ -51,7 +64,7 @@ class OAuth2UserServiceImpl(
         user.dateAndTimeOfCreation = LocalDateTime.now()
         user.oauth = true
         user.pastModel?.add(past)
-        user.password = bcrypt.hash().encode(user.password)
+        user.password = hashingConfig.hash().encode(user.password)
         user.id = Random(9).nextLong()
         userRepo.save(user)
     }
