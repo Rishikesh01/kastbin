@@ -56,6 +56,14 @@ tasks.withType<KotlinCompile> {
         jvmTarget = "11"
     }
 }
+tasks.jar {
+    manifest {
+        attributes["Main-Class"] = "KastbinApplicationKt"
+    }
+    configurations["compileClasspath"].forEach { file: File ->
+        from(zipTree(file.absoluteFile))
+    }
+}
 
 tasks.withType<Test> {
     useJUnitPlatform()
