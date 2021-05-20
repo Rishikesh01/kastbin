@@ -19,3 +19,17 @@ The project is in its beta stage
 ``/basic`` - authenticates user using Http basic(Email and password).
 
 ``/oauth`` - used for both authentication and registering user.
+
+# Prerequisites before running the project
+- you need to get your google clientId and client secret from  [Google cloud console](https://console.cloud.google.com/apis/dashboard) and past those in application.yml which is located in resources folder
+- set up mongodb and add username and password if you have configured them for mongodb to application.yml
+
+# Building the project and running it
+
+simply run ``./gradle build`` 
+you can find the jar file in build/libs folder.
+
+To run just use ``java -jar name.jar``
+
+
+
