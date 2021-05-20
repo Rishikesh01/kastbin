@@ -1,5 +1,5 @@
 # License
-GPL 3
+[GPL 3](https://github.com/Rishikesh01/kastbin/blob/master/LICENSE)
 
 # Kastbin
 
