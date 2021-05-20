@@ -1,7 +1,6 @@
 # Kastbin
 
-Kastbin is an attempt to make pastbin backend clone attempt
-it.The whole project is written in kotlin and it uses spring and mongodb.
+Kastbin is an attempt to make pastbin backend clone.The whole project is written in kotlin and it uses spring and mongodb.
 
 The project is in its beta stage
 
