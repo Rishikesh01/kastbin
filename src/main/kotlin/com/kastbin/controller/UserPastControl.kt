@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RestController
  * @constructor Create empty User controller
  */
 @RestController
-@RequestMapping("/user")
-class UserController(
+@RequestMapping("/user/past")
+class UserPastControl(
     private val pastModelRepo: PastModelRepo,
     private val pastDTOMapper: PastDTOMapper
 ) {
@@ -35,7 +35,7 @@ class UserController(
      * @param user
      * @return ResponseEntity containing List of pastDTO
      */
-    @GetMapping("/past")
+    @GetMapping
     fun userPastList(
         @AuthenticationPrincipal oauthUser: OAuth2User?,
         @AuthenticationPrincipal user: UserDetailsImp?

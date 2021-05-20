@@ -55,7 +55,7 @@ class ProfileController(
      * @param oauth
      * @return
      */
-    @PostMapping
+    @PutMapping
     fun updateCurrentUser(
         @RequestBody userReg: UserRegistrationDTO,
         @AuthenticationPrincipal user: UserDetailsImp?,
