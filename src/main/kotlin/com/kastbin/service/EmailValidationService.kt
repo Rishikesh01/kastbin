@@ -1,7 +1,5 @@
 package com.kastbin.service
 
-import org.springframework.stereotype.Service
-
 /**
  * Email validation service
  *
@@ -11,7 +9,7 @@ import org.springframework.stereotype.Service
 class EmailValidationService {
     companion object {
         @JvmStatic
-        val EMAIL_REGEX = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})";
+        val EMAIL_REGEX = "^[A-Za-z](.*)([@])(.+)(\\.)(.+)"
         fun isEmailValid(email: String): Boolean {
             return EMAIL_REGEX.toRegex().matches(email)
         }
