@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -21,15 +22,6 @@ import javax.servlet.http.HttpServletRequest
  */
 @EnableWebSecurity
 class WebSecurityConfiguration {
-
-    /**
-     * Web security o auth
-     *
-     * @property userDetailsService
-     * @property oauth
-     * @property hashingConfig
-     * @constructor Create empty Web security o auth
-     */
     @Bean
     fun session(): SessionRegistry {
         return SessionRegistryImpl()
@@ -44,23 +36,27 @@ class WebSecurityConfiguration {
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
+
             http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/", "/past", "/signup").permitAll()
                 .mvcMatchers("/oauth/**").authenticated()
+                .mvcMatchers("/home/**").authenticated()
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(oauth)
 
-            http.logout()
-                .deleteCookies("JSESSIONID")
+            http
+                .logout()
                 .and()
-                .rememberMe().key("test")
+                .rememberMe()
+                .key("test")
 
             http.sessionManagement()
-                .maximumSessions(1)
+                .maximumSessions(5)
                 .sessionRegistry(session)
+
         }
 
         override fun configure(auth: AuthenticationManagerBuilder) {
@@ -86,23 +82,28 @@ class WebSecurityConfiguration {
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
+
+
             http.csrf().disable()
                 .requestMatcher(BasicRequestMatcher())
                 .authorizeRequests()
                 .mvcMatchers("/", "/past", "/signup").permitAll()
                 .mvcMatchers("/basic/**").authenticated()
+                .antMatchers("/home/**")
+                .authenticated()
                 .and()
                 .httpBasic()
                 .and()
                 .logout()
-                .deleteCookies("JSESSIONID")
-                .and()
-                .rememberMe().key("test")
+
+            http
+                .rememberMe()
+                .key("test")
+                .alwaysRemember(true)
 
             http.sessionManagement()
-                .maximumSessions(1)
+                .maximumSessions(5)
                 .sessionRegistry(session)
-
 
         }
 

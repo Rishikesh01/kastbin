@@ -28,6 +28,7 @@ data class UserModel(
     var oauth: Boolean?,
     var password: String?,
     var dateAndTimeOfCreation: LocalDateTime?,
+    var isEnabled:Boolean,
     @Id
     var id: Long?
 )

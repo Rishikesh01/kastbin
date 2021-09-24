@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails
  */
 class UserDetailsImp(var user:UserModel):UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return AuthorityUtils.createAuthorityList("USER")
+        return AuthorityUtils.createAuthorityList("ROLE_USER")
     }
 
     /**
@@ -31,13 +31,13 @@ class UserDetailsImp(var user:UserModel):UserDetails {
     /**
      * Get email
      *
-     * @return
+     * @return string
      */
     fun getEmail():String{
         return user.email!!
     }
     override fun getUsername(): String {
-       return user.userName!!
+       return user.email!!
     }
 
     override fun isAccountNonExpired(): Boolean {
@@ -53,6 +53,6 @@ class UserDetailsImp(var user:UserModel):UserDetails {
     }
 
     override fun isEnabled(): Boolean {
-        return true
+        return user.isEnabled
     }
 }
