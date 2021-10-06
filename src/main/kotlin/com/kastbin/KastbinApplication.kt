@@ -9,3 +9,5 @@ class KastbinApplication
 fun main(args: Array<String>) {
     runApplication<KastbinApplication>(*args)
 }
+
+

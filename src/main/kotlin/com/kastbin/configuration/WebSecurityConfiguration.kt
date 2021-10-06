@@ -1,5 +1,6 @@
 package com.kastbin.configuration
 
+import com.kastbin.componet.LogoutHandler
 import com.kastbin.service.OAuth2UserServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -8,7 +9,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
-import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -32,11 +32,11 @@ class WebSecurityConfiguration {
         private val userDetailsService: UserDetailsService,
         private val oauth: OAuth2UserServiceImpl,
         private val hashingConfig: HashingConfig,
-        private val session: SessionRegistry
+        private val session: SessionRegistry,
+        private val logoutHandler: LogoutHandler
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
-
             http.csrf().disable()
                 .authorizeRequests()
                 .mvcMatchers("/", "/past", "/signup").permitAll()
@@ -49,6 +49,7 @@ class WebSecurityConfiguration {
 
             http
                 .logout()
+                .addLogoutHandler(logoutHandler)
                 .and()
                 .rememberMe()
                 .key("test")
@@ -56,7 +57,6 @@ class WebSecurityConfiguration {
             http.sessionManagement()
                 .maximumSessions(5)
                 .sessionRegistry(session)
-
         }
 
         override fun configure(auth: AuthenticationManagerBuilder) {
@@ -78,11 +78,11 @@ class WebSecurityConfiguration {
     class WebSecurityBasic(
         private val userDetailsService: UserDetailsService,
         private val hashingConfig: HashingConfig,
-        private val session: SessionRegistry
+        private val session: SessionRegistry,
+        private val logoutHandler: LogoutHandler
     ) : WebSecurityConfigurerAdapter() {
 
         override fun configure(http: HttpSecurity) {
-
 
             http.csrf().disable()
                 .requestMatcher(BasicRequestMatcher())
@@ -95,6 +95,7 @@ class WebSecurityConfiguration {
                 .httpBasic()
                 .and()
                 .logout()
+                .addLogoutHandler(logoutHandler)
 
             http
                 .rememberMe()
@@ -104,7 +105,6 @@ class WebSecurityConfiguration {
             http.sessionManagement()
                 .maximumSessions(5)
                 .sessionRegistry(session)
-
         }
 
         override fun configure(auth: AuthenticationManagerBuilder) {
