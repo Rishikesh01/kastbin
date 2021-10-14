@@ -7,8 +7,8 @@ spring:
       client:
         registration:
           google:
-            clientId: "here your clientId"
-            clientSecret: "here your clientSecret"
+            clientId: "293073818976-1mrodnn44bb8n13uamtdlqdo8vm1rkr6.apps.googleusercontent.com"
+            clientSecret: "A1j-HVt01feXb2M97kChXdZY"
             scope:
               - email
               - profile
