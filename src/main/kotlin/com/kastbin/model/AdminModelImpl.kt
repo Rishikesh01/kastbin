@@ -5,14 +5,12 @@ import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.core.userdetails.UserDetails
 
 /**
- * User details imp
- *
- * @property user
- * @constructor Create empty User details imp
+ * @project kastbin
+ * @author Rishikesh
  */
-class UserDetailsImp(var user:UserModel):UserDetails {
+class AdminModelImpl(val user: AdminModel) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return AuthorityUtils.createAuthorityList("ROLE_USER")
+        return AuthorityUtils.createAuthorityList("ROLE_ADMIN")
     }
 
     /**
@@ -20,12 +18,9 @@ class UserDetailsImp(var user:UserModel):UserDetails {
      *
      * @return
      */
-    fun isOAuth():Boolean{
-        return user.oauth!!
-    }
 
     override fun getPassword(): String {
-       return user.password!!
+        return user.password!!
     }
 
     /**
@@ -33,19 +28,20 @@ class UserDetailsImp(var user:UserModel):UserDetails {
      *
      * @return string
      */
-    fun getEmail():String{
+    fun getEmail(): String {
         return user.email!!
     }
+
     override fun getUsername(): String {
-       return user.email!!
+        return user.email!!
     }
 
     override fun isAccountNonExpired(): Boolean {
-       return true
+        return true
     }
 
     override fun isAccountNonLocked(): Boolean {
-       return user.isLocked
+        return true
     }
 
     override fun isCredentialsNonExpired(): Boolean {
@@ -53,6 +49,6 @@ class UserDetailsImp(var user:UserModel):UserDetails {
     }
 
     override fun isEnabled(): Boolean {
-        return user.isEnabled
+        return true
     }
 }

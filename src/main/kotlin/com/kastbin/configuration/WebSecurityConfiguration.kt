@@ -1,7 +1,9 @@
 package com.kastbin.configuration
 
 import com.kastbin.componet.LogoutHandler
+import com.kastbin.service.AdminServiceImpl
 import com.kastbin.service.OAuth2UserServiceImpl
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.annotation.Order
@@ -12,8 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry
 import org.springframework.security.core.session.SessionRegistryImpl
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.web.AuthenticationEntryPoint
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint
 import org.springframework.security.web.util.matcher.RequestMatcher
 import javax.servlet.http.HttpServletRequest
+
 
 /**
  * Web security configuration
@@ -28,8 +33,9 @@ class WebSecurityConfiguration {
     }
 
     @Configuration
+    @Order(3)
     class WebSecurityOAuth(
-        private val userDetailsService: UserDetailsService,
+        @Qualifier("user") private val userDetailsService: UserDetailsService,
         private val oauth: OAuth2UserServiceImpl,
         private val hashingConfig: HashingConfig,
         private val session: SessionRegistry,
@@ -39,9 +45,7 @@ class WebSecurityConfiguration {
         override fun configure(http: HttpSecurity) {
             http.csrf().disable()
                 .authorizeRequests()
-                .mvcMatchers("/", "/past", "/signup").permitAll()
-                .mvcMatchers("/oauth/**").authenticated()
-                .mvcMatchers("/home/**").authenticated()
+                .antMatchers("/oauth").authenticated()
                 .and()
                 .oauth2Login()
                 .userInfoEndpoint()
@@ -74,9 +78,9 @@ class WebSecurityConfiguration {
      * @constructor Create empty Web security basic
      */
     @Configuration
-    @Order(0)
+    @Order(2)
     class WebSecurityBasic(
-        private val userDetailsService: UserDetailsService,
+        @Qualifier("user") private val userDetailsService: UserDetailsService,
         private val hashingConfig: HashingConfig,
         private val session: SessionRegistry,
         private val logoutHandler: LogoutHandler
@@ -85,11 +89,9 @@ class WebSecurityConfiguration {
         override fun configure(http: HttpSecurity) {
 
             http.csrf().disable()
-                .requestMatcher(BasicRequestMatcher())
+                .antMatcher("/basic/**")
                 .authorizeRequests()
-                .mvcMatchers("/", "/past", "/signup").permitAll()
-                .mvcMatchers("/basic/**").authenticated()
-                .antMatchers("/home/**")
+                .anyRequest()
                 .authenticated()
                 .and()
                 .httpBasic()
@@ -113,16 +115,52 @@ class WebSecurityConfiguration {
                 .passwordEncoder(hashingConfig.hash())
         }
 
-        /**
-         * Basic request matcher
-         *
-         * @constructor Create empty Basic request matcher
-         */
-        internal class BasicRequestMatcher : RequestMatcher {
-            override fun matches(request: HttpServletRequest): Boolean {
-                val auth = request.getHeader("Authorization")
-                return auth != null && auth.startsWith("Basic")
-            }
+
+    }
+
+    @Configuration
+    @Order(1)
+    class AdminBasic(
+        private val userDetailsService: AdminServiceImpl,
+        private val hashingConfig: HashingConfig,
+        private val session: SessionRegistry,
+        private val logoutHandler: LogoutHandler
+    ) : WebSecurityConfigurerAdapter() {
+
+        @Bean
+        fun authenticationEntryPoint(): AuthenticationEntryPoint? {
+            val entryPoint = BasicAuthenticationEntryPoint()
+            entryPoint.realmName = "admin realm"
+            return entryPoint
+        }
+
+        override fun configure(http: HttpSecurity) {
+
+            http.csrf().disable()
+                .antMatcher("/admin/**")
+                .authorizeRequests()
+                .anyRequest()
+                .hasRole("ADMIN")
+                .and()
+                .httpBasic()
+                .and()
+                .logout()
+                .addLogoutHandler(logoutHandler)
+
+            http
+                .rememberMe()
+                .key("test")
+                .alwaysRemember(true)
+
+            http.sessionManagement()
+                .maximumSessions(1)
+                .sessionRegistry(session)
+        }
+
+        override fun configure(auth: AuthenticationManagerBuilder) {
+            auth
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(hashingConfig.hash())
         }
 
     }

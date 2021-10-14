@@ -40,6 +40,7 @@ class UserServices(
             user.dateAndTimeOfCreation = LocalDateTime.now()
             user.oauth = false
             user.isEnabled = true
+            userRepo.save(user)
             return true
         }
         return false

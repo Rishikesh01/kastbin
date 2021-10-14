@@ -28,7 +28,7 @@ class LogoutHandler(private val session: SessionRegistry) : LogoutHandler {
                 for (information in session.getAllSessions(user, true)) {
                     information.expireNow()
                 }
-            } else {
+            } else if(authentication.principal is OAuth2User) {
                 val user = authentication.principal as OAuth2User
                 for (information in session.getAllSessions(user, true)) {
                     information.expireNow()
