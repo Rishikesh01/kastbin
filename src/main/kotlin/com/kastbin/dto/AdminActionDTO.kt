@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull
  */
 data class AdminActionDTO(
     @NotNull
-    val userEmail: String?,
+    val email: String?,
     @NotNull
     val action: String?,
     @NotNull

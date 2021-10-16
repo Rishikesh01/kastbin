@@ -17,9 +17,9 @@ import org.jetbrains.annotations.NotNull
 data class PastDTO(
     @field:NotNull
     var past:String?,
-    var pastType:Type?,
+    var pastType:String?,
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    var user:String?,
+    var email:String?,
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     var password:String?,
 )

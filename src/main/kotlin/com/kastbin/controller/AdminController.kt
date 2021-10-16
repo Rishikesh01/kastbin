@@ -27,12 +27,12 @@ class AdminController(
         @AuthenticationPrincipal auth: UserDetailsImp,
         @RequestBody adminActionDTO: AdminActionDTO?
     ): ResponseEntity<String> {
-        if (adminActionDTO?.action == null || adminActionDTO.reason == null || adminActionDTO.userEmail == null)
+        if (adminActionDTO?.action == null || adminActionDTO.reason == null || adminActionDTO.email == null)
             return ResponseEntity("all the values must be filled before submitting", HttpStatus.BAD_REQUEST)
         else if (actionService.takeAction(adminActionDTO, auth.username))
             return ResponseEntity("submission was successfull", HttpStatus.OK)
         return ResponseEntity(
-            "either user with email" + adminActionDTO.userEmail + "does not exist or action performed was invalid",
+            "either user with email" + adminActionDTO.email + "does not exist or action performed was invalid",
             HttpStatus.BAD_REQUEST
         )
     }

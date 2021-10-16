@@ -2,6 +2,7 @@ package com.kastbin.controller
 
 import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.model.OAuth2UserImpl
+import com.kastbin.model.PastDetailsModel
 import com.kastbin.model.UserDetailsImp
 import com.kastbin.model.UserModel
 import com.kastbin.repository.UserModelRepo
@@ -72,5 +73,13 @@ class ProfileController(
             return ResponseEntity(HttpStatus.ACCEPTED)
         }
         return ResponseEntity(HttpStatus.BAD_REQUEST)
+    }
+
+    @GetMapping("/past")
+    fun allPast( @AuthenticationPrincipal user: UserDetailsImp?,
+                 @AuthenticationPrincipal oauth: OAuth2User?): MutableList<PastDetailsModel?>? {
+        checkNotNull(user)
+        val userModel = userModelRepo.findByEmail(user.getEmail())!!.pastModel
+        return userModel
     }
 }

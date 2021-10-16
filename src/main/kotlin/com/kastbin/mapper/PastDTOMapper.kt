@@ -18,6 +18,7 @@ interface PastDTOMapper {
      * @param pastDetailsModel
      * @return PastDTO
      */
+
     fun toPastDTO(pastDetailsModel: PastDetailsModel?): PastDTO?
 
     /**

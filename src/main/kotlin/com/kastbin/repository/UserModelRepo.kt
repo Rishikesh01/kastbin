@@ -1,7 +1,8 @@
 package com.kastbin.repository
 
 import com.kastbin.model.UserModel
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
 
 /**
@@ -9,7 +10,8 @@ import org.springframework.data.mongodb.repository.MongoRepository
  *
  * @constructor Create empty User model repo
  */
-interface UserModelRepo : MongoRepository<UserModel, Long> {
+@Repository
+interface UserModelRepo : CrudRepository<UserModel, Long> {
     /**
      * Find by email
      *

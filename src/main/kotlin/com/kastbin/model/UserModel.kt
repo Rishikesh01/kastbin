@@ -1,10 +1,7 @@
 package com.kastbin.model
 
-import org.springframework.data.annotation.Id
-import org.springframework.data.mongodb.core.index.Indexed
-import org.springframework.data.mongodb.core.mapping.DBRef
-import org.springframework.data.mongodb.core.mapping.Document
 import java.time.LocalDateTime
+import javax.persistence.*
 
 /**
  * User model
@@ -18,12 +15,12 @@ import java.time.LocalDateTime
  * @property id
  * @constructor Create empty User model
  */
-@Document
+@Entity
 data class UserModel(
     var userName: String?,
-    @Indexed(unique = true)
+    @Column(unique = true)
     var email: String?,
-    @DBRef
+    @OneToMany(cascade = [CascadeType.ALL])
     var pastModel: MutableList<PastDetailsModel?>?,
     var oauth: Boolean?,
     var password: String?,
@@ -31,5 +28,6 @@ data class UserModel(
     var isEnabled: Boolean,
     var isLocked: Boolean,
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long?
 )

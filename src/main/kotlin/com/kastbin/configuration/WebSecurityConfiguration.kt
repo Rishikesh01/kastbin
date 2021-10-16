@@ -143,6 +143,7 @@ class WebSecurityConfiguration {
                 .hasRole("ADMIN")
                 .and()
                 .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint())
                 .and()
                 .logout()
                 .addLogoutHandler(logoutHandler)

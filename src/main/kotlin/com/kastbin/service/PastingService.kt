@@ -48,11 +48,10 @@ class PastingService(
             return basicUserPast(basicUser, pastDTO)
         }
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
-        if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
-        pastDetails.user = "Anonymous"
+        if (pastDetails.pastType == null) pastDetails.pastType = Type.valueOf("TEXT").toString()
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
-        pastDetails.id = UUID.randomUUID().mostSignificantBits
+      // pastDetails.id = UUID.randomUUID().mostSignificantBits
         pastRepo.save(pastDetails)
         return url
     }
@@ -67,8 +66,8 @@ class PastingService(
     private fun oauthUserPast(userImpl: OAuth2UserImpl, pastDTO: PastDTO): String {
         val user: UserModel = userRepo.findByEmail(userImpl.getEmail()!!)!!
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
-        if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
-        pastDetails.user = user.email
+        if (pastDetails.pastType == null) pastDetails.pastType = Type.valueOf("TEXT").toString()
+        //pastDetails.userEmail = user.email
         return pastURL(pastDetails, user)
     }
 
@@ -83,12 +82,12 @@ class PastingService(
     protected fun pastURL(pastDetails: PastDetailsModel, user: UserModel): String {
         val url = urlGenerator.randomStringGenerator()
         pastDetails.pastURL = url
-        pastDetails.id = UUID.randomUUID().mostSignificantBits
+      //  pastDetails.id = UUID.randomUUID().mostSignificantBits
         val past: PastDetailsModel = pastRepo.save(pastDetails)
         user.pastModel = ArrayList()
         (user.pastModel as ArrayList<PastDetailsModel?>).add(past)
         userRepo.save(user)
-        pastRepo.save(pastDetails)
+//        pastRepo.save(pastDetails)
         return url
     }
 
@@ -102,8 +101,8 @@ class PastingService(
     private fun basicUserPast(basicUser: UserDetailsImp, pastDTO: PastDTO): String {
         val user: UserModel = userRepo.findByEmail(basicUser.getEmail())!!
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
-        if (pastDetails.pastType == null) pastDetails.pastType = Type.TEXT
-        pastDetails.user = basicUser.getEmail()
+        if (pastDetails.pastType == null) pastDetails.pastType = Type.valueOf("TEXT").toString()
+     pastDetails.email = basicUser.getEmail()
         return pastURL(pastDetails, user)
     }
 

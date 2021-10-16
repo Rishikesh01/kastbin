@@ -1,16 +1,19 @@
 package com.kastbin.model
 
-import org.springframework.data.annotation.Id
+import javax.persistence.*
 
 /**
  * @project kastbin
  * @author Rishikesh
  */
+@Entity
 data class AdminModel(
-    val name: String,
-    val email: String,
+    var name: String,
+    @Column(unique = true)
+    var email: String,
     var password: String,
-    val canDeleteAdmin: Boolean,
+    var canDeleteAdmin: Boolean,
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     var id: Long?
 )

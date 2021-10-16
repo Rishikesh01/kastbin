@@ -28,7 +28,7 @@ class ActionService(
         val action: ActionModel = adminActionDTOMapper.toActionModel(adminActionDTO)
         action.admin = adminName
         actionRepo.save(action)
-        val user: UserModel = userRepo.findByEmail(adminActionDTO.userEmail!!) ?: return false
+        val user: UserModel = userRepo.findByEmail(adminActionDTO.email!!) ?: return false
         if (adminActionDTO.action == BAN) {
             user.isEnabled = false
             userRepo.save(user)

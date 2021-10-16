@@ -42,13 +42,13 @@ class UserPastControl(
     ): ResponseEntity<List<PastDTO?>> {
         if (oauthUser != null) {
             val oauthUserImpl: OAuth2UserImpl = OAuth2UserImpl(oauthUser)
-            val userPast: List<PastDetailsModel?> = pastModelRepo.findByUser(oauthUserImpl.getEmail()!!)
+            val userPast: List<PastDetailsModel?> = pastModelRepo.findByEmail(oauthUserImpl.getEmail()!!)
             val userPastDto: List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
             return ResponseEntity(userPastDto, HttpStatus.OK)
         }
         if (user == null)
             return ResponseEntity(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED)
-        val userPast: List<PastDetailsModel?> = pastModelRepo.findByUser(user.getEmail())
+        val userPast: List<PastDetailsModel?> = pastModelRepo.findByEmail(user.getEmail())
         val userPastDto: List<PastDTO?> = pastDTOMapper.toListPastDTO(userPast)
         return ResponseEntity(userPastDto, HttpStatus.OK)
 

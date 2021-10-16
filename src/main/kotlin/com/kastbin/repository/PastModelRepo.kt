@@ -1,14 +1,16 @@
 package com.kastbin.repository
 
 import com.kastbin.model.PastDetailsModel
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
 /**
  * Past model repo
  *
  * @constructor Create empty Past model repo
  */
-interface PastModelRepo : MongoRepository<PastDetailsModel, Long> {
+@Repository
+interface PastModelRepo : JpaRepository<PastDetailsModel, Long> {
     /**
      * Find by past u r l
      *
@@ -23,5 +25,5 @@ interface PastModelRepo : MongoRepository<PastDetailsModel, Long> {
      * @param userEmail
      * @return
      */
-    fun findByUser(userEmail:String):List<PastDetailsModel?>
+    fun findByEmail(userEmail: String): List<PastDetailsModel?>
 }

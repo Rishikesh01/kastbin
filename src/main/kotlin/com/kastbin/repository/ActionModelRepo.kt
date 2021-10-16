@@ -1,11 +1,13 @@
 package com.kastbin.repository
 
 import com.kastbin.model.ActionModel
-import org.springframework.data.mongodb.repository.MongoRepository
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
 /**
  * @project kastbin
  * @author Rishikesh
  */
-interface ActionModelRepo : MongoRepository<ActionModel, Long> {
+@Repository
+interface ActionModelRepo : CrudRepository<ActionModel, Long> {
 }
