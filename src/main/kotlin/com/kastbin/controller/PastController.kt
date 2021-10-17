@@ -45,6 +45,8 @@ class PastController(
         @AuthenticationPrincipal basicUser: UserDetailsImp?,
         @RequestBody pastDTO: PastDTO
     ): ResponseEntity<HttpStatus> {
+        if (pastDTO.password == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
+        if (pastDTO.password!!.isBlank()) pastDTO.password = null
         val url: String = pastingService.past(pastDTO, authUser, basicUser)
         val header = HttpHeaders()
         header.location = URI.create("/${url}")
@@ -62,7 +64,6 @@ class PastController(
         val past: PastDTO? = pastMapper.toPastDTO(pastRepo.findByPastURL(pastURL))
         if (past != null) return ResponseEntity.accepted().body(past)
         return ResponseEntity(HttpStatus.NOT_FOUND)
-
     }
 
 }

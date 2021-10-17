@@ -1,6 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    id("org.jetbrains.kotlin.plugin.noarg") version "1.5.31"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.5.31"
     id("org.springframework.boot") version "2.4.5"
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("plugin.jpa") version "1.6.0-RC"
@@ -28,7 +30,6 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql:42.2.24.jre7")
 // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:2.5.5")
-
     //OAuth
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client:2.5.5")
     //Spring security
@@ -43,7 +44,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     //Spring security dsl for kotlin
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.5.2-native-mt")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.5")
+    // developmentOnly("org.springframework.boot:spring-boot-devtools:2.5.5")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:2.5.5")
     testImplementation("org.springframework.boot:spring-boot-starter-test:2.5.5")
     testImplementation("io.projectreactor:reactor-test:3.4.10")

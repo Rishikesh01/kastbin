@@ -12,6 +12,7 @@ spring:
     generate-ddl: true
     properties:
       hibernate:
+        default_schema: public
         jdbc:
           lob:
             non_contextual_creation: true
@@ -25,4 +26,3 @@ spring:
             scope:
               - email
               - profile
-

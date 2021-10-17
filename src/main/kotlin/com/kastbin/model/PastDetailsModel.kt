@@ -1,6 +1,5 @@
 package com.kastbin.model
 
-import com.kastbin.enums.Type
 import java.sql.Date
 import javax.persistence.*
 
@@ -10,7 +9,7 @@ import javax.persistence.*
  * @property past
  * @property pastType
  * @property user
- * @property isProctected
+ * @property isProtected
  * @property password
  * @property pastURL
  * @property dateOfCreation
@@ -18,11 +17,11 @@ import javax.persistence.*
  * @constructor Create empty Past details model
  */
 @Entity
+@Table(name = "past_details")
 data class PastDetailsModel(
     var past: String?,
     var pastType: String?,
-    var email: String?,
-    var isProctected: Boolean?,
+    var isProtected: Boolean?,
     var password: String?,
     @Column(unique = true)
     var pastURL: String?,

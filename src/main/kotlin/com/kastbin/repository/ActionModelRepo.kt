@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository
  * @author Rishikesh
  */
 @Repository
-interface ActionModelRepo : CrudRepository<ActionModel, Long> {
-}
+interface ActionModelRepo : CrudRepository<ActionModel, Long>

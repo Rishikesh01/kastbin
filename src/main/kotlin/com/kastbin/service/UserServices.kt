@@ -8,7 +8,6 @@ import com.kastbin.repository.UserModelRepo
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * User services
@@ -35,11 +34,11 @@ class UserServices(
             userDTO.password.equals(userDTO.confirmPassword) && userRepo.findByEmail(userDTO.email!!) == null
         ) {
             val user = registrationMapper.toUserModel(userDTO)
-            user.id = UUID.randomUUID().mostSignificantBits
             user.password = hashing.hash().encode(user.password)
             user.dateAndTimeOfCreation = LocalDateTime.now()
             user.oauth = false
             user.isEnabled = true
+            user.isNotLocked = true
             userRepo.save(user)
             return true
         }

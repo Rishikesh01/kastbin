@@ -7,6 +7,7 @@ import javax.persistence.*
  * @author Rishikesh
  */
 @Entity
+@Table(name = "admin_details")
 data class AdminModel(
     var name: String,
     @Column(unique = true)

@@ -25,5 +25,5 @@ interface PastModelRepo : JpaRepository<PastDetailsModel, Long> {
      * @param userEmail
      * @return
      */
-    fun findByEmail(userEmail: String): List<PastDetailsModel?>
+    //fun findByEmail(userEmail: String): List<PastDetailsModel?>
 }

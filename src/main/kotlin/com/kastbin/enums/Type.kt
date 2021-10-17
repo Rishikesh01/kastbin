@@ -77,8 +77,8 @@ enum class Type(str: String) {
      */
     PYTHON("python");
 
-    private val str:String = str
-    override fun toString():String{
+    private val str: String = str
+    override fun toString(): String {
         return str
     }
 }

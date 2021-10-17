@@ -20,7 +20,7 @@ class AdminModelImpl(val user: AdminModel) : UserDetails {
      */
 
     override fun getPassword(): String {
-        return user.password!!
+        return user.password
     }
 
     /**
@@ -29,11 +29,11 @@ class AdminModelImpl(val user: AdminModel) : UserDetails {
      * @return string
      */
     fun getEmail(): String {
-        return user.email!!
+        return user.email
     }
 
     override fun getUsername(): String {
-        return user.email!!
+        return user.email
     }
 
     override fun isAccountNonExpired(): Boolean {

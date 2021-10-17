@@ -33,10 +33,10 @@ class ActionService(
             user.isEnabled = false
             userRepo.save(user)
         } else if (adminActionDTO.action == LOCK) {
-            user.isLocked = false
+            user.isNotLocked = false
             userRepo.save(user)
         } else if (adminActionDTO.action == UNLOCK) {
-            user.isLocked = true
+            user.isNotLocked = true
             userRepo.save(user)
         } else
             return false

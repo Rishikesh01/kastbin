@@ -4,7 +4,6 @@ import com.kastbin.configuration.HashingConfig
 import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.mapper.RegistrationDTOMapper
 import com.kastbin.model.OAuth2UserImpl
-import com.kastbin.model.PastDetailsModel
 import com.kastbin.model.UserModel
 import com.kastbin.repository.UserModelRepo
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService
@@ -14,7 +13,6 @@ import org.springframework.security.oauth2.core.user.OAuth2User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
-import kotlin.random.Random
 
 /**
  * O auth2user service impl
@@ -52,7 +50,6 @@ class OAuth2UserServiceImpl(
     fun saveUser(oauthUser: OAuth2UserImpl) {
         if (userRepo.findByEmail(oauthUser.getEmail()!!) != null)
             return
-        val past: PastDetailsModel = PastDetailsModel(null, null, null, null, null, null, null, null)
         val user: UserModel = userMapper.toUserModel(
             UserRegistrationDTO(
                 oauthUser.name,
@@ -64,9 +61,8 @@ class OAuth2UserServiceImpl(
         user.dateAndTimeOfCreation = LocalDateTime.now()
         user.oauth = true
         user.isEnabled = true
-        user.pastModel?.add(past)
+        user.isNotLocked = true
         user.password = hashingConfig.hash().encode(user.password)
-        user.id = Random(9).nextLong()
         userRepo.save(user)
     }
 

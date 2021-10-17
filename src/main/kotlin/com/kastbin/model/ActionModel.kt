@@ -1,15 +1,13 @@
 package com.kastbin.model
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 /**
  * @project kastbin
  * @author Rishikesh
  */
 @Entity
+@Table(name = "action")
 data class ActionModel(
     val email: String,
     val action: String,
