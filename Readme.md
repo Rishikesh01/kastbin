@@ -3,8 +3,7 @@
 
 # Kastbin
 
-Kastbin is an attempt to make pastbin backend clone.The whole project is written in kotlin and it uses spring and mongodb.
-
+Kastbin is backend clone of pastbin.
 The project is in its beta stage
 
 # Endpoints
