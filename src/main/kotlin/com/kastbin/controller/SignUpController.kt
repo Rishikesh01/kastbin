@@ -22,8 +22,7 @@ import java.util.*
  */
 @RestController
 @RequestMapping("/signup")
-class SignUpController(private val userServices: UserServices,
-private  val adminModelRepo: AdminModelRepo) {
+class SignUpController(private val userServices: UserServices) {
     /**
      * register
      * takes userRegistrationDto from RequestBody
@@ -39,12 +38,5 @@ private  val adminModelRepo: AdminModelRepo) {
             "user with email ${userRegistrationDTO.email} already exist",
             HttpStatus.BAD_REQUEST
         )
-    }
-
-    @PostMapping("/admin")
-    fun registerAdmin(@RequestBody adminModel: AdminModel ){
-      adminModel.password = HashingConfig().hash().encode(adminModel.password)
-        adminModel.id = UUID.randomUUID().mostSignificantBits
-        adminModelRepo.save(adminModel)
     }
 }
