@@ -18,7 +18,7 @@ interface RegistrationDTOMapper {
      * @param userModel
      * @return UserRegistrationDTO
      */
-    fun toUserRegDTO(userModel: UserModel):UserRegistrationDTO
+    fun toUserRegDTO(userModel: UserModel): UserRegistrationDTO
 
     /**
      * To user model
@@ -26,5 +26,5 @@ interface RegistrationDTOMapper {
      * @param userRegistrationDTO
      * @return UserModel
      */
-    fun toUserModel(userRegistrationDTO: UserRegistrationDTO):UserModel
+    fun toUserModel(userRegistrationDTO: UserRegistrationDTO): UserModel
 }

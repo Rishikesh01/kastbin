@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails
  * @property user
  * @constructor Create empty User details imp
  */
-class UserDetailsImp(var user:UserModel):UserDetails {
+class UserDetailsImp(var user: UserModel) : UserDetails {
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return AuthorityUtils.createAuthorityList("ROLE_USER")
     }
@@ -20,12 +20,12 @@ class UserDetailsImp(var user:UserModel):UserDetails {
      *
      * @return
      */
-    fun isOAuth():Boolean{
+    fun isOAuth(): Boolean {
         return user.oauth!!
     }
 
     override fun getPassword(): String {
-       return user.password!!
+        return user.password!!
     }
 
     /**
@@ -33,19 +33,20 @@ class UserDetailsImp(var user:UserModel):UserDetails {
      *
      * @return string
      */
-    fun getEmail():String{
+    fun getEmail(): String {
         return user.email!!
     }
+
     override fun getUsername(): String {
-       return user.email!!
+        return user.email!!
     }
 
     override fun isAccountNonExpired(): Boolean {
-       return true
+        return true
     }
 
     override fun isAccountNonLocked(): Boolean {
-       return user.isLocked
+        return user.isNotLocked
     }
 
     override fun isCredentialsNonExpired(): Boolean {

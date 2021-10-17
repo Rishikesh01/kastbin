@@ -15,7 +15,7 @@ class HashingConfig {
      *
      * @return BcryptPasswordEncoder
      */
-    fun hash():BCryptPasswordEncoder{
+    fun hash(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
 }

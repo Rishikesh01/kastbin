@@ -7,5 +7,4 @@ import org.springframework.data.mongodb.repository.MongoRepository
  * @project kastbin
  * @author Rishikesh
  */
-interface ActionModelRepo : MongoRepository<ActionModel, Long> {
-}
+interface ActionModelRepo : MongoRepository<ActionModel, Long>

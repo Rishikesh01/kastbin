@@ -23,5 +23,5 @@ interface PastModelRepo : MongoRepository<PastDetailsModel, Long> {
      * @param userEmail
      * @return
      */
-    fun findByUser(userEmail:String):List<PastDetailsModel?>
+    fun findByUser(userEmail: String): List<PastDetailsModel?>
 }

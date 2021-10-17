@@ -1,6 +1,7 @@
 package com.kastbin.controller
 
 import com.kastbin.dto.UserRegistrationDTO
+import com.kastbin.mapper.RegistrationDTOMapper
 import com.kastbin.model.OAuth2UserImpl
 import com.kastbin.model.UserDetailsImp
 import com.kastbin.model.UserModel
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/user/profile")
 class ProfileController(
+    private val userMapper: RegistrationDTOMapper,
     private val userModelRepo: UserModelRepo,
     private val userServices: UserServices
 ) {
@@ -36,15 +38,19 @@ class ProfileController(
     fun currentUserDetails(
         @AuthenticationPrincipal user: UserDetailsImp?,
         @AuthenticationPrincipal oauth: OAuth2User?
-    ): String? {
+    ): ResponseEntity<UserRegistrationDTO> {
         if (user != null) {
-            return user.getEmail()
+            val user: UserModel = userModelRepo.findByEmail(user.getEmail())!!
+            val userView = userMapper.toUserRegDTO(user)
+            return ResponseEntity(userView, HttpStatus.OK)
         }
         if (oauth != null) {
-            val auth = OAuth2UserImpl(oauth)
-            return auth.getEmail()
+            val oauth = OAuth2UserImpl(oauth)
+            val ouser = userModelRepo.findByEmail(oauth.getEmail()!!)!!
+            val userView = userMapper.toUserRegDTO(ouser)
+            return ResponseEntity(userView, HttpStatus.OK)
         }
-        return "no user"
+        return ResponseEntity(HttpStatus.UNAUTHORIZED)
     }
 
     /**

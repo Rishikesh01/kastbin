@@ -29,7 +29,7 @@ data class UserModel(
     var password: String?,
     var dateAndTimeOfCreation: LocalDateTime?,
     var isEnabled: Boolean,
-    var isLocked: Boolean,
+    var isNotLocked: Boolean,
     @Id
     var id: Long?
 )

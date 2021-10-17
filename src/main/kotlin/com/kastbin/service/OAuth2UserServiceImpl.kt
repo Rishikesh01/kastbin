@@ -64,6 +64,7 @@ class OAuth2UserServiceImpl(
         user.dateAndTimeOfCreation = LocalDateTime.now()
         user.oauth = true
         user.isEnabled = true
+        user.isNotLocked = true
         user.pastModel?.add(past)
         user.password = hashingConfig.hash().encode(user.password)
         user.id = Random(9).nextLong()

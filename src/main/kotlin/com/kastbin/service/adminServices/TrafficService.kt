@@ -39,7 +39,7 @@ class TrafficService(
                 val currentUser: CurrentUserTrafficDetails =
                     CurrentUserTrafficDetails(user.userName!!, user.email!!, user.isEnabled)
                 newList.add(currentUser)
-            } else if(x is OAuth2User){
+            } else if (x is OAuth2User) {
                 val oauth = OAuth2UserImpl(x)
                 val user: UserModel = userRepo.findByEmail(oauth.getEmail()!!)!!
                 val currentUser: CurrentUserTrafficDetails =

@@ -34,7 +34,7 @@ interface PastDTOMapper {
      * @param pastDto
      * @return List of PastDetailsModel
      */
-    fun toListPastDetailsModel(pastDto:List<PastDTO?>):List<PastDetailsModel>
+    fun toListPastDetailsModel(pastDto: List<PastDTO?>): List<PastDetailsModel>
 
     /**
      * To list past d t o
@@ -42,5 +42,5 @@ interface PastDTOMapper {
      * @param pastDetailsModel
      * @return List of PastDTO
      */
-    fun toListPastDTO(pastDetailsModel:List<PastDetailsModel?>):List<PastDTO>
+    fun toListPastDTO(pastDetailsModel: List<PastDetailsModel?>): List<PastDTO>
 }

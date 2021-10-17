@@ -5,7 +5,6 @@ import com.kastbin.dto.UserRegistrationDTO
 import com.kastbin.model.AdminModel
 import com.kastbin.repository.AdminModelRepo
 import com.kastbin.service.UserServices
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
@@ -22,8 +21,10 @@ import java.util.*
  */
 @RestController
 @RequestMapping("/signup")
-class SignUpController(private val userServices: UserServices,
-private  val adminModelRepo: AdminModelRepo) {
+class SignUpController(
+    private val userServices: UserServices,
+    private val adminModelRepo: AdminModelRepo
+) {
     /**
      * register
      * takes userRegistrationDto from RequestBody
@@ -42,8 +43,8 @@ private  val adminModelRepo: AdminModelRepo) {
     }
 
     @PostMapping("/admin")
-    fun registerAdmin(@RequestBody adminModel: AdminModel ){
-      adminModel.password = HashingConfig().hash().encode(adminModel.password)
+    fun registerAdmin(@RequestBody adminModel: AdminModel) {
+        adminModel.password = HashingConfig().hash().encode(adminModel.password)
         adminModel.id = UUID.randomUUID().mostSignificantBits
         adminModelRepo.save(adminModel)
     }

@@ -1,6 +1,6 @@
 package com.kastbin.dto
 
-import com.kastbin.model.PastDetailsModel
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.jetbrains.annotations.NotNull
 
 /**
@@ -15,8 +15,10 @@ import org.jetbrains.annotations.NotNull
 data class UserRegistrationDTO(
     @field:NotNull
     var userName: String?,
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:NotNull
     var password: String?,
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:NotNull
     var confirmPassword: String?,
     @field:NotNull
