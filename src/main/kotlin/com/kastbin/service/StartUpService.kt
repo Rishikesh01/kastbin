@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service
 class StartUpService(val adminModelRepo: AdminModelRepo) :CommandLineRunner{
     override fun run(vararg args: String?) {
         val defaultAdmin = AdminModel("admin","admin@kastbin.com","admin",true)
-        adminModelRepo.save(defaultAdmin)
+        if(adminModelRepo.findByEmail("admin@kastbin.com") == null)
+            adminModelRepo.save(defaultAdmin)
     }
 }
