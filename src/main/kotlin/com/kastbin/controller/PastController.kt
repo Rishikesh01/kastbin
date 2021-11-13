@@ -66,9 +66,4 @@ class PastController(
         return ResponseEntity(HttpStatus.NOT_FOUND)
     }
 
-    @GetMapping("/env")
-    fun getEnv(): String? {
-        return System.getenv("CLIENT_ID")
-    }
-
 }
