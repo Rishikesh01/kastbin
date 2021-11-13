@@ -1,12 +1,12 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pgx
-    username: postgres
-    password:
+    url: ${DATA_SOURCE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     generate-ddl: true
@@ -21,8 +21,8 @@ spring:
       client:
         registration:
           google:
-            clientId: "your client id"
-            clientSecret: "your client secret"
+            clientId: ${CLIENT_ID}
+            clientSecret: ${CLIENT_SECRET}
             scope:
               - email
               - profile

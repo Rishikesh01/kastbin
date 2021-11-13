@@ -16,5 +16,5 @@ data class AdminModel(
     var canDeleteAdmin: Boolean,
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: Long?
+    var id: Long?=null
 )
