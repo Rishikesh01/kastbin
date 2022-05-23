@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 /**
  * @project kastbin
  * @author Rishikesh
+ * can only be used by another admin to create a new admin account
  */
 @RestController("/admin/signup")
 class AdminSignUpController(private val adminModelRepo: AdminModelRepo) {

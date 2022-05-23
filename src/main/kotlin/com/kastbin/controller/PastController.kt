@@ -23,7 +23,7 @@ import java.net.URI
  * @constructor Create empty Past controller
  */
 @RestController
-@RequestMapping("/past")
+@RequestMapping("/paste")
 class PastController(
     private val pastRepo: PastModelRepo,
     private val pastMapper: PastDTOMapper,
@@ -44,13 +44,12 @@ class PastController(
         @AuthenticationPrincipal authUser: OAuth2User?,
         @AuthenticationPrincipal basicUser: UserDetailsImp?,
         @RequestBody pastDTO: PastDTO
-    ): ResponseEntity<HttpStatus> {
+    ): ResponseEntity<String> {
         if (pastDTO.password == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
         if (pastDTO.password!!.isBlank()) pastDTO.password = null
         val url: String = pastingService.past(pastDTO, authUser, basicUser)
-        val header = HttpHeaders()
-        header.location = URI.create("/${url}")
-        return ResponseEntity(header, HttpStatus.TEMPORARY_REDIRECT)
+        return ResponseEntity.status(HttpStatus.OK).location(URI.create("/${url}")).build();
+
     }
 
     /**
