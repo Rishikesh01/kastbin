@@ -47,9 +47,10 @@ class PastController(
     ): ResponseEntity<String> {
         if (pastDTO.password == null) return ResponseEntity(HttpStatus.BAD_REQUEST)
         if (pastDTO.password!!.isBlank()) pastDTO.password = null
-        val url: String = pastingService.past(pastDTO, authUser, basicUser)
-        return ResponseEntity.status(HttpStatus.OK).location(URI.create("/${url}")).build();
-
+        val url: String? = pastingService.past(pastDTO, authUser, basicUser)
+        if (url !=null)
+            return ResponseEntity.status(HttpStatus.OK).location(URI.create("/${url}")).build();
+        return  ResponseEntity(HttpStatus.BAD_REQUEST)
     }
 
     /**

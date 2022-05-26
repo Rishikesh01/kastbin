@@ -47,7 +47,7 @@ class UserPastControl(
             return ResponseEntity(userPastDto, HttpStatus.OK)
         }
         if (user == null)
-            return ResponseEntity(HttpStatus.NETWORK_AUTHENTICATION_REQUIRED)
+            return ResponseEntity(HttpStatus.UNAUTHORIZED)
         val userPast: MutableList<PastDetailsModel?>? = userRepo.findByEmail(user.getEmail())!!.pastModel
         val userPastDto: List<PastDTO>? = userPast?.let { pastDTOMapper.toListPastDTO(it) }
         return ResponseEntity(userPastDto, HttpStatus.OK)

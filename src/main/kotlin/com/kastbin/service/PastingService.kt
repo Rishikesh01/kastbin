@@ -39,7 +39,7 @@ class PastingService(
      * @param basicUser
      * @return
      */
-    fun past(pastDTO: PastDTO, authUser: OAuth2User?, basicUser: UserDetailsImp?): String {
+    fun past(pastDTO: PastDTO, authUser: OAuth2User?, basicUser: UserDetailsImp?): String? {
         if (authUser != null) {
             val userImpl: OAuth2UserImpl = OAuth2UserImpl(authUser)
             return oauthUserPast(userImpl, pastDTO)
@@ -47,6 +47,8 @@ class PastingService(
         if (basicUser != null) {
             return basicUserPast(basicUser, pastDTO)
         }
+        if (pastDTO.past == null)
+            return null
         val pastDetails: PastDetailsModel = pastMapper.toPastDetailsModel(pastDTO)
         if (pastDetails.pastType == null) pastDetails.pastType = Type.valueOf("TEXT").toString()
         val url = urlGenerator.randomStringGenerator()
