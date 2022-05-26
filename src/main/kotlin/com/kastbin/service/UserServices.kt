@@ -31,7 +31,7 @@ class UserServices(
     @Transactional
     fun userRegistration(userDTO: UserRegistrationDTO): Boolean {
         if (EmailValidationService.isEmailValid(userDTO.email!!) &&
-            userDTO.password.equals(userDTO.confirmPassword) && userRepo.findByEmail(userDTO.email!!) == null
+            userRepo.findByEmail(userDTO.email!!) == null
         ) {
             val user = registrationMapper.toUserModel(userDTO)
             user.password = hashing.hash().encode(user.password)
