@@ -31,7 +31,9 @@ class SignUpController(private val userServices: UserServices) {
      */
     @PostMapping
     fun register(@RequestBody userRegistrationDTO: UserRegistrationDTO): ResponseEntity<String> {
-        if (userServices.userRegistration(userRegistrationDTO)) {
+        if (userRegistrationDTO.password != userRegistrationDTO.confirmPassword) {
+            return ResponseEntity<String>("passwords dont match", HttpStatus.BAD_REQUEST)
+        } else if (userServices.userRegistration(userRegistrationDTO)) {
             return ResponseEntity<String>("user with registered successfully", HttpStatus.OK)
         }
         return ResponseEntity<String>(
