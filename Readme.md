@@ -1,7 +1,7 @@
 # License
 [GPL 3](https://github.com/Rishikesh01/kastbin/blob/master/LICENSE)
 # Notice
-Updated project in postgresVer branch
+Updated project in postgresVer branch. mongoDB version (main branch) is discontinued
 # Kastbin
 
 Kastbin is backend clone of pastbin.
